@@ -4,9 +4,13 @@ Gamatrix-cli
 Command line interface for Gamatrix.
 """
 
+import json
 from typing import List
 
 import click
+
+import gamatrixcli.constants as const
+from gamatrixcli.config import GMCLIConfig
 
 # We need to do the following operations:
 # 1. Import a DB from a user.
@@ -18,16 +22,37 @@ import click
 
 
 @click.group()
-def gcli() -> None:
-    pass
+@click.pass_context
+@click.option(
+    "--config-file",
+    "-c",
+    help=(
+        "The path to the configuration file. If the configuration "
+        "file is not found, the default configuration will be used."
+    ),
+    type=click.Path(),
+    default=const.DEFAULT_CONFIG_PATH,
+)
+def gcli(ctx: click.Context, config_file: click.Path) -> None:
+    if config_file.exists():
+        with open(config_file, "r") as cf:
+            config = json.loads(cf)
+            conf = GMCLIConfig(config)
+    else:
+        conf = GMCLIConfig(conf.get_default_config())
+
+    # pass the config object to subordinate commands
+    ctx.ensure_object(dict)
+    ctx.obj["config"] = conf
 
 
 @gcli.command()
+@click.pass_context
 @click.option(
     "--db", prompt="Enter the path to the DB file", help="The path to the DB file."
 )
 # @click.option("--user", prompt="Enter the user name", help="The user name.")
-def add_db(db: click.Path, user: str) -> bool:
+def add_db(ctx: click.Context, db: click.Path) -> bool:
     """Adds a new database for a user to gamatrix.
 
     If the user isn't yet known to gamatrixcli, the database is added
@@ -41,6 +66,8 @@ def add_db(db: click.Path, user: str) -> bool:
     """
     print(f"Adding database file {db}")
     # print(f"The database pertains to this user: {user}")
+    conf: GMCLIConfig = ctx.obj["config"]
+    conf.add_db(db)
 
     return False
 
