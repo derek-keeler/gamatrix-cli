@@ -1,0 +1,69 @@
+[project]
+name = "gamatrix-cli"
+version = "1.4.6"
+authors = [
+    {name = "Derek Keeler", email = "34773432+derek-keeler@users.noreply.github.com"},
+    {name = "Erik Niklas", email = "github@bobanddoug.com"},
+    {name = "Klosteinmann", email = "34807323+klosteinmann@users.noreply.github.com"},
+]
+description = """A command-line tool to compare the games owned by several users, and list
+                 all the games they have in common. It requires all users to
+                 use [GOG Galaxy](https://www.gog.com/galaxy); since GOG Galaxy
+                 supports almost all major digital distribution platforms. This is the cli
+                 version of [gamatrix](https://github.com/eniklas/gamatrix)."""
+readme = "README.md"
+requires-python = ">=3.7"
+license = { file = "LICENSE" }
+
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "click",
+    "Jinja2",
+    "pyyaml",
+    "requests",
+]
+
+# Optional dependencies for specific workflows. Install these with
+# the command line `pip install .[name-of-optional-dependency]`.
+[project.optional-dependencies]
+# Dependencies for local developement.
+dev = [
+    "black",
+    "flake8",
+    "mypy",
+    "pytest",
+    "pytest-cov",
+    "types-PyYAML",
+    "types-requests",
+    "types-setuptools",
+]
+# Dependencies for CI/CD automation system.
+ci = [
+    "build",
+    "wheel",
+]
+
+[tool.mypy]
+files = "src"
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+addopts = "--cov=gamatrix-cli --cov-branch"
+pythonpath = ["src"]
+
+[tool.setuptools.package-data]
+"gamatrix.templates" = ["*.jinja"]
+"gamatrix.static" = ["*.png", "*.jpg"]
+"gamatrix.static.profile_img" = ["*.png", "*.jpg"]
