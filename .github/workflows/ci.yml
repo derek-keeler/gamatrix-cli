@@ -15,7 +15,7 @@ jobs:
     name: Test Python ${{ matrix.python_version }} on ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-24.04, windows-2022]
         python_version: ['3.12']
     env:
       PYTHONDEVMODE: 1
