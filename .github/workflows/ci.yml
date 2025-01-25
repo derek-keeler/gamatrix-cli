@@ -12,7 +12,7 @@ on:
 jobs:
   tests:
 
-    name: Test Python ${{ matrix.python_version }}
+    name: Test Python ${{ matrix.python_version }} on ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
@@ -48,9 +48,9 @@ jobs:
 
     - name: Build a Wheel
       run: |
-        python -m build --wheel
+        python -m build --wheel 
 
     - uses: actions/upload-artifact@v3
       with:
         name: wheel
-        path: dist/gamatrix-*-none-any.whl
+        path: dist/gamatrixcli*-none-any.whl
