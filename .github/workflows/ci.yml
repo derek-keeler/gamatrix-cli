@@ -3,22 +3,25 @@ name: CI
 on:
   pull_request:
     branches:
-      - master
+      - main
   push:
     branches:
-      - master
+      - main
   workflow_dispatch:
 
 jobs:
   tests:
 
-    name: Test Python ${{ matrix.python_version }}
-    runs-on: ubuntu-latest
+    name: Test Python ${{ matrix.python_version }} on ${{ matrix.os }}
     strategy:
       matrix:
-        python_version: ['3.9']
+        # If you update os/version here, remember to update the if for the
+        # artifact upload at the end of this file.
+        os: [ubuntu-24.04, windows-2022]
+        python_version: ['3.12']
     env:
       PYTHONDEVMODE: 1
+    runs-on: ${{ matrix.os }}
 
     steps:
     - uses: actions/checkout@v3
@@ -39,7 +42,7 @@ jobs:
 
     - name: Check format with Black
       run: |
-        python -m black --check .
+        python -m ruff format --check
 
     - name: Test with pytest
       run: |
@@ -47,9 +50,12 @@ jobs:
 
     - name: Build a Wheel
       run: |
-        python -m build --wheel
+        python -m build --wheel 
 
-    - uses: actions/upload-artifact@v3
+    # Only allow the upload once. Just pick one OS + Python version combo
+    # and let it be. (This will be annoying when we update either :/ )
+    - if: matrix.os == 'ubuntu-24.04' && matrix.python_version == '3.12'
+      uses: actions/upload-artifact@v4
       with:
         name: wheel
-        path: dist/gamatrix-*-none-any.whl
+        path: dist/gamatrixcli*-none-any.whl

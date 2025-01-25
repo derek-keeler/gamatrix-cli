@@ -1,10 +1,9 @@
 [project]
-name = "gamatrix-cli"
-version = "1.4.6"
+name = "gamatrixcli"
+version = "0.0.1"
 authors = [
     {name = "Derek Keeler", email = "34773432+derek-keeler@users.noreply.github.com"},
     {name = "Erik Niklas", email = "github@bobanddoug.com"},
-    {name = "Klosteinmann", email = "34807323+klosteinmann@users.noreply.github.com"},
 ]
 description = """A command-line tool to compare the games owned by several users, and list
                  all the games they have in common. It requires all users to
@@ -40,11 +39,10 @@ dependencies = [
 [project.optional-dependencies]
 # Dependencies for local developement.
 dev = [
-    "black",
-    "flake8",
     "mypy",
     "pytest",
     "pytest-cov",
+    "ruff",
     "types-PyYAML",
     "types-requests",
     "types-setuptools",
