@@ -15,6 +15,8 @@ jobs:
     name: Test Python ${{ matrix.python_version }} on ${{ matrix.os }}
     strategy:
       matrix:
+        # If you update os/version here, remember to update the if for the
+        # artifact upload at the end of this file.
         os: [ubuntu-24.04, windows-2022]
         python_version: ['3.12']
     env:
@@ -50,7 +52,10 @@ jobs:
       run: |
         python -m build --wheel 
 
-    - uses: actions/upload-artifact@v3
+    # Only allow the upload once. Just pick one OS + Python version combo
+    # and let it be. (This will be annoying when we update either :/ )
+    - if: matrix.os == 'ubuntu-24.04' && matrix.python_version == '3.12'
+      uses: actions/upload-artifact@v4
       with:
         name: wheel
         path: dist/gamatrixcli*-none-any.whl
