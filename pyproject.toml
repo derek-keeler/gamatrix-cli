@@ -40,11 +40,10 @@ dependencies = [
 [project.optional-dependencies]
 # Dependencies for local developement.
 dev = [
-    "black",
-    "flake8",
     "mypy",
     "pytest",
     "pytest-cov",
+    "ruff",
     "types-PyYAML",
     "types-requests",
     "types-setuptools",
