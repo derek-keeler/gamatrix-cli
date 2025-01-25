@@ -26,11 +26,21 @@ def gcli() -> None:
 @click.option(
     "--db", prompt="Enter the path to the DB file", help="The path to the DB file."
 )
-@click.option("--user", prompt="Enter the user name", help="The user name.")
+# @click.option("--user", prompt="Enter the user name", help="The user name.")
 def add_db(db: click.Path, user: str) -> bool:
-    """Add or update a users DB to gamatrix."""
-    print("Adding database file {db}")
-    print("The database pertains to this user: {user}")
+    """Adds a new database for a user to gamatrix.
+
+    If the user isn't yet known to gamatrixcli, the database is added
+    and the user incorporated into the gamatrixcli's data store. If the
+    user is known to gamatrixcli, the database is stored into the user's
+    data store within gamatrix and their games and metadata is updated with
+    the new information.
+
+    Note: Gamatrixcli stores the 3 most recent DBs as the user's 'raw data'
+    as a backup in case of data corruption.
+    """
+    print(f"Adding database file {db}")
+    # print(f"The database pertains to this user: {user}")
 
     return False
 
