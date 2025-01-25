@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python_version: ['3.9']
+        python_version: ['3.12']
     env:
       PYTHONDEVMODE: 1
 
@@ -39,7 +39,7 @@ jobs:
 
     - name: Check format with Black
       run: |
-        python -m black --check .
+        python -m ruff format --check
 
     - name: Test with pytest
       run: |
