@@ -13,12 +13,13 @@ jobs:
   tests:
 
     name: Test Python ${{ matrix.python_version }}
-    runs-on: ubuntu-latest
     strategy:
       matrix:
-        python_version: ['3.12']
+      os: [ubuntu-latest, windows-latest]
+      python_version: ['3.12']
     env:
       PYTHONDEVMODE: 1
+    runs-on: ${{ matrix.os }}
 
     steps:
     - uses: actions/checkout@v3
