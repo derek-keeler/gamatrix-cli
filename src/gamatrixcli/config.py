@@ -52,8 +52,8 @@ class GMCLIConfig:
                 f"Property '{name}' not found in the configuration to set."
             )
 
-    def add_db(self, user_db_file: Path) -> None:
-        """Add a new DB, or a new DB for an existing user."""
+    def add_db(self, user_db_file: Path, user: str) -> None:
+        """Add a new DB for a new user, or an updated DB for an existing user."""
         # copy the file to the user_db folder
         userdb_path: Path = self.get_property(
             name="user_db_location", def_val=const.DEFAULT_USER_DB_PATH

@@ -17,30 +17,23 @@ from datetime import datetime
 from typing import Any
 
 
-class RawDB(ABC):
+class RawDB:
     """The base class for the raw user DBs."""
 
-    def __init__(self):
-        pass
-
-    @abstractmethod
     @property
     def db_path(self) -> str:
         """The path to the DB file."""
-        pass
+        raise NotImplementedError
 
-    @abstractmethod
     @property
     def user(self) -> str:
         """The user name associated with the DB."""
-        pass
+        raise NotImplementedError
 
-    @abstractmethod
     @property
     def timestamp(self) -> datetime:
-        pass
+        raise NotImplementedError
 
-    @abstractmethod
     def get_property(self, name: str, def_val: Any) -> Any:
         """Get a named property from the DB metadata or from its tables."""
-        pass
+        raise NotImplementedError

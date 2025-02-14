@@ -51,8 +51,8 @@ def gcli(ctx: click.Context, config_file: click.Path) -> None:
 @click.option(
     "--db", prompt="Enter the path to the DB file", help="The path to the DB file."
 )
-# @click.option("--user", prompt="Enter the user name", help="The user name.")
-def add_db(ctx: click.Context, db: click.Path) -> bool:
+@click.option("--user", prompt="Enter the user name", help="The user name.")
+def add_db(ctx: click.Context, db: click.Path, user: str) -> None:
     """Adds a new database for a user to gamatrix.
 
     If the user isn't yet known to gamatrixcli, the database is added
@@ -64,12 +64,10 @@ def add_db(ctx: click.Context, db: click.Path) -> bool:
     Note: Gamatrixcli stores the 3 most recent DBs as the user's 'raw data'
     as a backup in case of data corruption.
     """
-    print(f"Adding database file {db}")
+    print(f"Adding database file {db} for user {user}")
     # print(f"The database pertains to this user: {user}")
     conf: GMCLIConfig = ctx.obj["config"]
-    conf.add_db(db)
-
-    return False
+    conf.add_db(user_db_file=db, user=user)
 
 
 @gcli.command()
